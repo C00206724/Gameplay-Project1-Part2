@@ -32,14 +32,12 @@ int width;			// Width of texture
 int height;			// Height of texture
 int comp_count;		// Component of texture
 
-const int arraymax = 10; //Array Controller
-int modelZPos[arraymax]; //setting positions to start
 
 
 
 unsigned char* img_data;		// image data
 
-mat4 mvp, projection, view, model, modelX[arraymax];			// Model View Projection
+mat4 mvp, projection, viewLeft, viewRight, viewUp, viewDown, model;			// Model View Projection
 
 Game::Game() : 
 	window(VideoMode(800, 600), 
@@ -77,107 +75,33 @@ void Game::run()
 			{
 				isRunning = false;
 			}
+			
 
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && model[3].x > -6)
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 			{
 				// Set Model Rotation
-				//model = rotate(model, 0.01f, glm::vec3(0, 1, 0)); // Rotate
-				model = translate(model, glm::vec3(-0.2, 0, 0));
+				model = rotate(model, 0.01f, glm::vec3(1, 0, 0)); // Rotate
 			}
-
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && model[3].x < 6)
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
 				// Set Model Rotation
-				//model = translate(model, glm::vec3(-0.1, 0, 0));// Rotate
-				model = translate(model, glm::vec3(0.2, 0, 0));
+				model = rotate(model, 0.01f, glm::vec3(-1, 0, 0)); // Rotate
 			}
-			
-			// replay function
-			if (alive == false && sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
-				// resets all z positions
-				modelZPos[0] = -225;
-				modelZPos[1] = -160;
-				modelZPos[2] = -300;
-				modelZPos[3] = -250;
-				modelZPos[4] = -140;
-				modelZPos[5] = -185;
-				modelZPos[6] = -275;
-				modelZPos[7] = -155;
-				modelZPos[8] = -220;
-				modelZPos[9] = -325;
-
-				modelX[0] = translate(modelX[0], vec3(0,  0, modelZPos[0]));
-				modelX[1] = translate(modelX[1], vec3(0, 0, modelZPos[1]));
-				modelX[2] = translate(modelX[2], vec3(0, 0, modelZPos[2]));
-				modelX[3] = translate(modelX[3], vec3(0,  0, modelZPos[3]));
-				modelX[4] = translate(modelX[4], vec3(0,  0, modelZPos[4]));
-				modelX[5] = translate(modelX[5], vec3(0, 0, modelZPos[5]));
-				modelX[6] = translate(modelX[6], vec3(0, 0, modelZPos[6]));
-				modelX[7] = translate(modelX[7], vec3(0,  0, modelZPos[7]));
-				modelX[8] = translate(modelX[8], vec3(0, 0, modelZPos[8]));
-
-				// rests players x position
-				model = translate(model, glm::vec3(0, 22.2, 0));
-				alive = true;
-
-				// reseting view
-
-				view = lookAt(
-					vec3(0.0f, 4.0f, 10.0f),	// Camera (x,y,z), in World Space
-					vec3(0.0f, 0.0f, 0.0f),	// Camera looking at origin
-					vec3(0.0f, 1.0f, 0.0f)	// 0.0f, 1.0f, 0.0f Look Down and 0.0f, -1.0f, 0.0f Look Up
-				);
+				// Set Model Rotation
+				model = rotate(model, 0.01f, glm::vec3(0, -1, 0)); // Rotate
 			}
-			
-			if (alive == false && sf::Keyboard::isKeyPressed(sf::Keyboard::T))
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
-				// resets all z positions
-				modelZPos[0] = -225;
-				modelZPos[1] = -160;
-				modelZPos[2] = -300;
-				modelZPos[3] = -250;
-				modelZPos[4] = -140;
-				modelZPos[5] = -185;
-				modelZPos[6] = -275;
-				modelZPos[7] = -155;
-				modelZPos[8] = -220;
-				modelZPos[9] = -325;
-
-				modelX[0] = translate(modelX[0], vec3(0, 0, modelZPos[0]));
-				modelX[1] = translate(modelX[1], vec3(0, 0, modelZPos[1]));
-				modelX[2] = translate(modelX[2], vec3(0, 0, modelZPos[2]));
-				modelX[3] = translate(modelX[3], vec3(0, 0, modelZPos[3]));
-				modelX[4] = translate(modelX[4], vec3(0, 0, modelZPos[4]));
-				modelX[5] = translate(modelX[5], vec3(0, 0, modelZPos[5]));
-				modelX[6] = translate(modelX[6], vec3(0, 0, modelZPos[6]));
-				modelX[7] = translate(modelX[7], vec3(0, 0, modelZPos[7]));
-				modelX[8] = translate(modelX[8], vec3(0, 0, modelZPos[8]));
-
-				// rests players x position
-				model = translate(model, glm::vec3(0, 22.2, 0));
-				alive = true;
-
-				// reseting view
-
-				view = lookAt(
-					vec3(0.0f, 1.0f, 10.0f),	// Camera (x,y,z), in World Space
-					vec3(0.0f, 0.0f, 0.0f),	// Camera looking at origin
-					vec3(0.0f, 1.0f, 0.0f)	// 0.0f, 1.0f, 0.0f Look Down and 0.0f, -1.0f, 0.0f Look Up
-				);
+				// Set Model Rotation
+				model = rotate(model, 0.01f, glm::vec3(0, 1, 0)); // Rotate
 			}
-
-			//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-			//{
-			//	// Set Model Rotation
-			//	model = rotate(model, 0.01f, glm::vec3(1, 0, 0)); // Rotate
-			//}
-
 			
 			
 		}
 		update();
-		render();
+		render(model);
 	}
 
 #if (DEBUG >= 2)
@@ -369,42 +293,46 @@ void Game::initialize()
 		100.0f					// Display Range Max : 100.0f unit
 		);
 
-	// Camera Matrix
-	view = lookAt(
+	// Camera Matrix -> Main view 
+	viewLeft = lookAt(
 		vec3(0.0f, 4.0f, 10.0f),	// Camera (x,y,z), in World Space
 		vec3(0.0f, 0.0f, 0.0f),	// Camera looking at origin
 		vec3(0.0f, 1.0f, 0.0f)	// 0.0f, 1.0f, 0.0f Look Down and 0.0f, -1.0f, 0.0f Look Up
 		);
 
-	//Enemy model matrix
-	for (int i = 0; i > 10; i++)
-	{
-		modelX[i] = mat4(
-			1.0f
-		);
-	}
+	// Secondary view
+	// right top 
+	glViewport(400, 300, 400, 300);
+	glLoadIdentity();
+	(5.0f, 5.0f, 5.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f);
 
-	//Setting up initial positions for the cubes.
-	modelZPos[0] = -155;
-	modelZPos[1] = -160;
-	modelZPos[2] = -300;
-	modelZPos[3] = -250;
-	modelZPos[4] = -140;
-	modelZPos[5] = -185;
-	modelZPos[6] = -275;
-	modelZPos[7] = -225;
-	modelZPos[8] = -220;
-	modelZPos[9] = -325;
+	//glClear(GL_COLOR_BUFFER_BIT);
+	//glColor3f(1.0f, 0.0f, 0.0f);
 
-	modelX[0] = translate(modelX[0], vec3(-10, 0, modelZPos[0]));
-	modelX[1] = translate(modelX[1], vec3(0, 0, modelZPos[1]));
-	modelX[2] = translate(modelX[2], vec3(2, 0, modelZPos[2]));
-	modelX[3] = translate(modelX[3], vec3(-3, 0, modelZPos[3]));
-	modelX[4] = translate(modelX[4], vec3(-6, 0, modelZPos[4]));
-	modelX[5] = translate(modelX[5], vec3(5, 0, modelZPos[5]));
-	modelX[6] = translate(modelX[6], vec3(1, 0, modelZPos[6]));
-	modelX[7] = translate(modelX[7], vec3(-5, 0, modelZPos[7]));
-	modelX[8] = translate(modelX[8], vec3(3, 0, modelZPos[8]));
+	glViewport(0, 0, 400, 300);
+	glLoadIdentity(); vec3(0.0f, 0.0f, -3.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f);
+	//viewRight = lookAt(vec3(0.0f, 0.0f, -3.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+	
+
+	glViewport(400, 0, 400, 300);
+	glLoadIdentity(); ((0.0, 0.0, 3.0), (0.0, 0.0, 0.0), (0.0, 1.0, 0.0));
+	//viewDown = lookAt(vec3(0.0, 0.0, 3.0), vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0));
+	
+
+	/*glViewport(0, height / 2, width / 2, height / 2);
+	glLoadIdentity();
+	gluLookAt(0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0);
+
+
+	glViewport(width / 2, height / 2, width / 2, height / 2);
+	glLoadIdentity();
+	gluLookAt(0.0, -3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0);*/
+
+
+	glFlush();
+
 
 	//setting player colour
 	
@@ -428,56 +356,6 @@ void Game::update()
 	DEBUG_MSG("Updating...");
 #endif
 	
-	//collision and cube respawn
-	if (alive == true)
-	{
-
-		for (int i = 0; i < arraymax; i++)
-		{
-			if (modelX[i][3].z < 0 )
-			{
-				modelX[i] = translate(modelX[i], glm::vec3(0, 0, 0.03f));
-			}
-			else
-			{
-				modelX[i] = translate(modelX[i], glm::vec3(0, 0, -200.0f));
-				std::cout << modelX[i][3].z << std::endl;
-			}
-
-			if (modelX[i][3].x <= model[3].x + 2 && modelX[i][3].x >= model[3].x - 2 && modelX[i][3].z >= -2)
-			{
-
-				model = translate(model, glm::vec3(0, -22.2, 0));
-				std::cout << "Press 'R' to replay" << std::endl;
-				int index = 0;
-				float zPos = 10;
-			
-				alive = false;
-
-			}
-
-		}
-	
-		 //this is jumping impimentation
-		//if (jumping == true)
-		//{ 
-		//	for (int index = 0; index < 10000; index++)
-		//	{
-		//		model = translate(model, glm::vec3(0, 0.00001, 0));
-		//		if (index > 950)
-		//			break;
-		//	}
-		//	// 
-		//	for (int index1 = 0; index1 < 10000; index1++)
-		//	{
-		//		if (model[3].y >= 5)
-		//		{
-		//			model = translate(model, glm::vec3(0, -0.00001, 0));
-		//		}
-		//	}
-		//	jumping = false;
-		//}
-	}
 
 	
 
@@ -487,7 +365,7 @@ void Game::update()
 
 void Game::renderPlayer(mat4 &refModel)
 {
-	mvp = projection * view * refModel;
+	mvp = projection * viewLeft * viewRight * viewDown * refModel;
 
 	//VBO Data....vertices, colors and UV's appended
 	glBufferSubData(GL_ARRAY_BUFFER, 0 * VERTICES * sizeof(GLfloat), 3 * VERTICES * sizeof(GLfloat), verticesP);
@@ -516,40 +394,11 @@ void Game::renderPlayer(mat4 &refModel)
 	glDrawElements(GL_TRIANGLES, 3 * INDICES, GL_UNSIGNED_INT, NULL);
 }
 
-void Game::renderEnemy(mat4 &refModel)
+
+
+void Game::render(mat4 &refModel)
 {
-	mvp = projection * view * refModel;
-
-	//VBO Data....vertices, colors and UV's appended
-	glBufferSubData(GL_ARRAY_BUFFER, 0 * VERTICES * sizeof(GLfloat), 3 * VERTICES * sizeof(GLfloat), vertices);
-	glBufferSubData(GL_ARRAY_BUFFER, 3 * VERTICES * sizeof(GLfloat), 4 * COLORS * sizeof(GLfloat), colors);
-	glBufferSubData(GL_ARRAY_BUFFER, ((3 * VERTICES) + (4 * COLORS)) * sizeof(GLfloat), 2 * UVS * sizeof(GLfloat), uvs);
-
-	// Send transformation to shader mvp uniform
-	glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
-
-	//Set Active Texture .... 32
-	glActiveTexture(GL_TEXTURE0);
-	glUniform1i(textureID, 0);
-
-	//Set pointers for each parameter (with appropriate starting positions)
-	//https://www.khronos.org/opengles/sdk/docs/man/xhtml/glVertexAttribPointer.xml
-	glVertexAttribPointer(positionID, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glVertexAttribPointer(colorID, 4, GL_FLOAT, GL_FALSE, 0, (VOID*)(3 * VERTICES * sizeof(GLfloat)));
-	glVertexAttribPointer(uvID, 2, GL_FLOAT, GL_FALSE, 0, (VOID*)(((3 * VERTICES) + (4 * COLORS)) * sizeof(GLfloat)));
-
-	//Enable Arrays
-	glEnableVertexAttribArray(positionID);
-	glEnableVertexAttribArray(colorID);
-	glEnableVertexAttribArray(uvID);
-
-	//Draw Element Arrays
-	glDrawElements(GL_TRIANGLES, 3 * INDICES, GL_UNSIGNED_INT, NULL);
-}
-
-void Game::render()
-{
-	//mvp = projection * view * refModel;
+	mvp = projection * viewRight * refModel;
 
 #if (DEBUG >= 2)
 	DEBUG_MSG("Render Loop...");
@@ -560,10 +409,6 @@ void Game::render()
 
 	renderPlayer(model); //draws player cube
 	
-	for (int i = 0; i < 10; i++) // draws enemy cubes(obstacles)
-	{
-		renderEnemy(modelX[i]);
-	}
 	
 	window.display();
 

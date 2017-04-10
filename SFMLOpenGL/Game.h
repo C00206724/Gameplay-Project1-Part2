@@ -35,15 +35,13 @@ private:
 	void update();
 	void renderPlayer(mat4 &refModel);
 	void renderEnemy(mat4 &refModel);
-	void render();
+	void render(mat4 &refModel);
 	void unload();
 	
 	double x; double x4;
 	double x1; double x5;
 	double x2; double x6;
 	double x3;
-	bool alive = true;
-	bool jumping = false;
 };
 
 #endif
