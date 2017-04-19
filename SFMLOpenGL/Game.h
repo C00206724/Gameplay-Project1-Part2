@@ -28,6 +28,9 @@ public:
 	Game(sf::ContextSettings settings);
 	~Game();
 	void run();
+	void CameraOne();
+	void CameraTwo();
+
 private:
 	Window window;
 	bool isRunning = false;

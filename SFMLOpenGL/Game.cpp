@@ -288,7 +288,7 @@ void Game::initialize()
 	// Projection Matrix 
 	projection = perspective(
 		45.0f,					// Field of View 45 degrees
-		4.0f / 3.0f,			// Aspect ratio
+		2.0f / 3.0f,			// Aspect ratio
 		5.0f,					// Display Range Min : 0.1f unit
 		100.0f					// Display Range Max : 100.0f unit
 		);
@@ -299,6 +299,7 @@ void Game::initialize()
 		vec3(0.0f, 0.0f, 0.0f),	// Camera looking at origin
 		vec3(0.0f, 1.0f, 0.0f)	// 0.0f, 1.0f, 0.0f Look Down and 0.0f, -1.0f, 0.0f Look Up
 		);
+	glDrawElements(GL_TRIANGLES, 3 * INDICES, GL_UNSIGNED_INT, NULL);
 
 	// Secondary view
 	// right top 
@@ -395,6 +396,27 @@ void Game::renderPlayer(mat4 &refModel)
 }
 
 
+void Game::CameraOne()
+{
+	glViewport(0, 0, 400, 600);
+	viewLeft = lookAt(
+		vec3(0.0f, 4.0f, 10.0f),	// Camera (x,y,z), in World Space
+		vec3(0.0f, 0.0f, 0.0f),	// Camera looking at origin
+		vec3(0.0f, 1.0f, 0.0f)	// 0.0f, 1.0f, 0.0f Look Down and 0.0f, -1.0f, 0.0f Look Up
+	);
+	glDrawElements(GL_TRIANGLES, 3 * INDICES, GL_UNSIGNED_INT, NULL);
+}
+
+void Game::CameraTwo()
+{
+	glViewport(400, 0, 400, 600);
+	glLoadIdentity();
+	(5.0f, 5.0f, 5.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f);
+
+	glDrawElements(GL_TRIANGLES, 3 * INDICES, GL_UNSIGNED_INT, NULL);
+}
 
 void Game::render(mat4 &refModel)
 {
@@ -409,6 +431,8 @@ void Game::render(mat4 &refModel)
 
 	renderPlayer(model); //draws player cube
 	
+	CameraOne();
+	CameraTwo();
 	
 	window.display();
 
